@@ -1,9 +1,9 @@
 extends PlayerState
-class_name PlayerWalk
+class_name PlayerFall
 @onready var anim =  $"../../AnimationPlayer"
 
 func Enter():
-	anim.play("PlayerWalk")
+	anim.play("PlayerFall")
 	
 func Update(_delta: float):
 	pass
@@ -12,6 +12,5 @@ func Exit():
 	pass
 	
 func Physics_Update(_delta: float):
-	super.Physics_Update(_delta)
-	if player.velocity.x == 0 and player.is_on_floor():
+	if player.is_on_floor():
 		Transitioned.emit(self,"PlayerIdle")

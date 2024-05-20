@@ -1,8 +1,6 @@
-extends State
+extends PlayerState
 class_name PlayerIdle
 @onready var anim =  $"../../AnimationPlayer"
-
-@export var player: CharacterBody2D
 
 func Enter():
 	super.Enter()
@@ -12,5 +10,5 @@ func Exit():
 	pass
 	
 func Physics_Update(_delta: float):
-	if player.velocity.x != 0:
-		Transitioned.emit(self,"PlayerWalk")
+	super.Physics_Update(_delta)
+
