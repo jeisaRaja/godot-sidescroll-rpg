@@ -1,5 +1,5 @@
 extends CharacterBody2D
-
+signal dash
 const SPEED = 200.0
 const JUMP_VELOCITY = -400.0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -17,6 +17,11 @@ func setVelocity(v: Vector2):
 
 func GetDirection():
 	var direction = Input.get_axis("ui_left", "ui_right")
+	var isDashing = Input.is_action_just_pressed("dash")
+	
+	if isDashing:
+		dash.emit()
+		
 	if direction and not busy:
 		velocity.x = direction * SPEED
 		if facingDir != direction:

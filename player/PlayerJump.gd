@@ -14,3 +14,7 @@ func Exit():
 func Physics_Update(_delta: float):
 	if player.velocity.y > 0:
 		Transitioned.emit(self,"PlayerFall")
+
+
+func _on_player_dash():
+	Transitioned.emit(self, "PlayerDash")

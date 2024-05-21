@@ -15,5 +15,6 @@ func Physics_Update(_delta: float):
 	super.Physics_Update(_delta)
 	if player.velocity.x == 0 and player.is_on_floor():
 		Transitioned.emit(self,"PlayerIdle")
-	if isDashing():
-		Transitioned.emit(self,"PlayerDash")
+
+func _on_player_dash():
+	Transitioned.emit(self, "PlayerDash")

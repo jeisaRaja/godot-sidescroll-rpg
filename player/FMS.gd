@@ -23,7 +23,6 @@ func _physics_process(delta):
 		currState.Physics_Update(delta)
 
 func on_child_transition(state, newStateName):
-	#print(state, newStateName)
 	if state != currState:
 		return 
 	if currState:
