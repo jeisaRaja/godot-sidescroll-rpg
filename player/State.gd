@@ -6,6 +6,9 @@ signal Transitioned(state, newStateName)
 static func isAttack():
 	var isAttack: bool = Input.is_action_just_pressed("attack")
 	return isAttack
+static func isDashing():
+	var isDashing = Input.is_action_pressed("dash")
+	return isDashing
 
 func Enter():
 	pass
