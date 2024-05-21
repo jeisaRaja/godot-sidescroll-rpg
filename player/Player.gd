@@ -1,43 +1,40 @@
 extends CharacterBody2D
-signal dash
+class_name Actor
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -300.0
-const FRICTION = 1000.0
-const ACCELERATION = 5000.0
 
 @onready var ray = $RayCast2D
-
+@onready var FMS = $FMS
+@onready var Anim = $AnimationPlayer
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-var facingDir: int = 1
+var facingDir: Vector2 = Vector2(1,1)
 var busy: bool = false
 var canDoubleJump: bool = false
 
-func setVelocity(v: Vector2):
-	velocity.x = v.x
-	velocity.y = v.y
-	if v.x>500: print(velocity)
-	move_and_slide()
+# Player Input
+var movement_input = Vector2.ZERO
+var jump_input = false
+var jump_input_actuation = false
+var climb_input = false
+var dash_input = false
 
-func GetDirection():
-	var direction = Input.get_axis("ui_left", "ui_right")
-	var isDashing = Input.is_action_just_pressed("dash")
-	
-	if isDashing:
-		dash.emit()
+# Mechanics
+var can_dash: bool = true
 
-	return direction
+func _ready():
+	for state in FMS.get_children():
+		state.Actor = self
+		state.FMS = FMS
+		state.Anim = Anim
+	FMS.initiate_states_machine()
 	
 func _physics_process(delta):
+	player_input()
 	apply_gravity(delta)
-	handle_wall_jump()
-	handle_jump()
-	var direction = Input.get_axis("ui_left", "ui_right")
-	handle_movement(direction, delta)
-	GetDirection()
-	setVelocity(Vector2(velocity.x, velocity.y))
-
+	move_and_slide()
+	
 func apply_gravity(delta: float):
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -57,15 +54,28 @@ func handle_wall_jump():
 		velocity.x = wall_normal.x * SPEED * 2
 		velocity.y = JUMP_VELOCITY
 
-func handle_movement(direction, delta):
-	if direction and not busy:
-		if not is_on_floor():
-			velocity.x = move_toward(velocity.x, SPEED * direction * 0.8, ACCELERATION * delta)
-		else:
-			velocity.x = move_toward(velocity.x, SPEED * direction, ACCELERATION * delta)
-			
-		if facingDir != direction:
-			scale.x *= -1
-			facingDir = direction
+func player_input():
+	movement_input = Vector2.ZERO
+	if Input.is_action_pressed("MoveRight"):
+		movement_input.x += 1
+	if Input.is_action_pressed("MoveLeft"):
+		movement_input.x -= 1
+	if Input.is_action_pressed("MoveUp"):
+		movement_input.y -= 1
+	if Input.is_action_pressed("MoveDown"):
+		movement_input.y += 1
+	
+	if Input.is_action_pressed("Jump"):
+		jump_input = true
 	else:
-		velocity.x = 0	
+		jump_input = false
+	
+	if Input.is_action_just_pressed("Jump"):
+		jump_input_actuation = true
+	else:
+		jump_input_actuation = false
+	
+	if Input.is_action_just_pressed("Dash"):
+		dash_input = true
+	else:
+		dash_input = false
