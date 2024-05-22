@@ -31,6 +31,7 @@ func _ready():
 	for state in FMS.get_children():
 		state.Actor = self
 		state.Anim = Anim
+		state.FMS = FMS
 	FMS.initiate_states_machine()
 	
 func _physics_process(delta):

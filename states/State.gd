@@ -5,6 +5,7 @@ signal Transitioned(state, newStateName)
 
 var Actor: ActorClass = null
 var Anim: AnimationPlayer = null
+var FMS = null
 
 func Enter():
 	pass

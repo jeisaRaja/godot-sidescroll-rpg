@@ -3,6 +3,7 @@ class_name WallSlide
 
 func Enter():
 	Anim.play(Actor.name + "WallSlide")
+
 	
 func Update(_delta: float):
 	pass
@@ -17,5 +18,5 @@ func Physics_Update(_delta:float):
 		Transitioned.emit(self, "Idle")
 	if Actor.jump_input_actuation:
 		Transitioned.emit(self, "Jump")
-	if Actor.velocity.x != 0:
+	if not Actor.is_next_to_wall():
 		Transitioned.emit(self, "Fall")
