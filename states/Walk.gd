@@ -14,7 +14,7 @@ func Physics_Update(_delta: float):
 	actor_movement()
 	if Actor.velocity.x == 0:
 		Transitioned.emit(self, "Idle")
-	if Actor.velocity.y > 0:
+	if Actor.velocity.y > 0 and not Actor.can_coyote:
 		Transitioned.emit(self, "Fall")
 	if Actor.jump_input_actuation:
 		Transitioned.emit(self, "Jump")

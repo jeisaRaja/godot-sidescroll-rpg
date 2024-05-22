@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://kf4yxblvod5y"]
+[gd_scene load_steps=23 format=3 uid="uid://kf4yxblvod5y"]
 
 [ext_resource type="Script" path="res://player/Player.gd" id="1_64x7n"]
 [ext_resource type="Texture2D" uid="uid://bqs33udvvll1t" path="res://graphics/Warrior_Sheet-Effect.png" id="2_7p8v8"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://states/Fall.gd" id="7_vf030"]
 [ext_resource type="Script" path="res://states/Attack.gd" id="8_86fc7"]
 [ext_resource type="PackedScene" uid="uid://bj0ig06ffxs1p" path="res://states/Dash.tscn" id="9_gupu7"]
+[ext_resource type="Script" path="res://states/WallSlide.gd" id="10_maium"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vod2c"]
 radius = 4.0
@@ -149,6 +150,23 @@ tracks/0/keys = {
 "values": [0]
 }
 
+[sub_resource type="Animation" id="Animation_f8y77"]
+resource_name = "PlayerWallSlide"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [60, 61, 62]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sj5il"]
 _data = {
 "PlayerAttack": SubResource("Animation_417ab"),
@@ -159,6 +177,7 @@ _data = {
 "PlayerIdle": SubResource("Animation_x8ddi"),
 "PlayerJump": SubResource("Animation_3t5ig"),
 "PlayerWalk": SubResource("Animation_qanxr"),
+"PlayerWallSlide": SubResource("Animation_f8y77"),
 "RESET": SubResource("Animation_6i2fr")
 }
 
@@ -197,6 +216,9 @@ script = ExtResource("8_86fc7")
 
 [node name="Dash" parent="FMS" instance=ExtResource("9_gupu7")]
 
+[node name="WallSlide" type="Node" parent="FMS"]
+script = ExtResource("10_maium")
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_sj5il")
@@ -206,13 +228,17 @@ libraries = {
 
 [node name="DashCooldown" type="Timer" parent="Timer"]
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="Coyote" type="Timer" parent="Timer"]
+wait_time = 0.2
+one_shot = true
 
-[node name="Top" type="RayCast2D" parent="Node2D"]
+[node name="Raycast" type="Node2D" parent="."]
+
+[node name="Top" type="RayCast2D" parent="Raycast"]
 position = Vector2(0, -28)
 target_position = Vector2(10, 0)
 
-[node name="Bottom" type="RayCast2D" parent="Node2D"]
+[node name="Bottom" type="RayCast2D" parent="Raycast"]
 position = Vector2(0, -4)
 target_position = Vector2(10, 0)
 

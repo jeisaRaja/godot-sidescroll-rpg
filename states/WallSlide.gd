@@ -11,4 +11,5 @@ func Exit():
 	pass
 	
 func Physics_Update(_delta:float):
-	pass
+	if Actor.is_on_floor():
+		Transitioned.emit(self, "Idle")

@@ -33,4 +33,3 @@ func initiate_states_machine():
 	if initialState:
 		initialState.Enter()
 		currState = initialState
-		print("initial state success")

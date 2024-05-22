@@ -1,12 +1,12 @@
 extends State
 class_name Dash
 
-@export var dash_duration: float = 0.2
+@export var dash_duration: float = 0.3
 @onready var dash_cooldown_timer = $"../../Timer/DashCooldown"
 @onready var dash_duration_timer = $DashDuration
 
 var dash_dir = Vector2.RIGHT
-var dash_speed = 600
+var dash_speed = 500
 var is_dashing = false
 
 func Enter():

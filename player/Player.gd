@@ -4,17 +4,15 @@ class_name ActorClass
 const SPEED = 300.0
 const JUMP_VELOCITY = -300.0
 
-@onready var TopRight = $Raycast/TopRight
-@onready var BottomRight = $Raycast/BottomRight
+@onready var Raycast = $Raycast
 
 @onready var FMS = $FMS
 @onready var Anim = $AnimationPlayer
+@onready var coyote_timer = $Timer/Coyote
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var facingDir: Vector2 = Vector2(1,1)
-var busy: bool = false
-var canDoubleJump: bool = false
 
 # Player Input
 var movement_input = Vector2.ZERO
@@ -26,37 +24,34 @@ var dash_input = false
 # Mechanics
 var can_dash: bool = true
 var dash_cooldown: float = 2
+var was_on_floor: bool = true
+var can_coyote: bool = false
 
 func _ready():
 	for state in FMS.get_children():
 		state.Actor = self
-		state.FMS = FMS
 		state.Anim = Anim
 	FMS.initiate_states_machine()
 	
 func _physics_process(delta):
 	player_input()
 	apply_gravity(delta)
+	was_on_floor = is_on_floor()
 	move_and_slide()
+	check_coyote()
+	
+func check_coyote():
+	if was_on_floor and !is_on_floor():
+		coyote_timer.start()
+	if not coyote_timer.is_stopped():
+		can_coyote = true
+	else:
+		can_coyote = false
+	
 	
 func apply_gravity(delta: float):
 	if not is_on_floor():
 		velocity.y += gravity * delta
-		
-func handle_jump():
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		canDoubleJump = true
-		velocity.y = JUMP_VELOCITY
-	elif Input.is_action_just_pressed("ui_accept") and !is_on_floor() and canDoubleJump:
-		canDoubleJump = false
-		velocity.y = JUMP_VELOCITY
-
-func handle_wall_jump():
-	if not is_on_wall_only(): return
-	var wall_normal = get_wall_normal()
-	if Input.is_action_just_pressed("ui_accept") and wall_normal == Vector2.RIGHT:
-		velocity.x = wall_normal.x * SPEED * 2
-		velocity.y = JUMP_VELOCITY
 
 func player_input():
 	movement_input = Vector2.ZERO
@@ -83,6 +78,15 @@ func player_input():
 		dash_input = true
 	else:
 		dash_input = false
-
+		
+func is_next_to_wall():
+	var allColliding: bool = true
+	for raycast in Raycast.get_children():
+		if raycast is RayCast2D:
+			raycast.force_raycast_update()
+			if not raycast.is_colliding():
+				allColliding = false
+	return allColliding
+				
 func _on_dash_cooldown_timeout():
 	can_dash = true

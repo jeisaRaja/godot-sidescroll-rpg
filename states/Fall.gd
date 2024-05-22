@@ -16,3 +16,5 @@ func Physics_Update(delta: float):
 		Transitioned.emit(self, "Idle")
 	if Actor.dash_input and Actor.can_dash:
 		Transitioned.emit(self, "Dash")
+	if Actor.is_next_to_wall() and Actor.velocity.y > 0:
+		Transitioned.emit(self, "WallSlide")
