@@ -14,7 +14,4 @@ func Exit():
 	
 func Physics_Update(_delta: float):
 	pass
-	
-func _on_animation_player_animation_finished(anim_name):
-	Actor.busy = false
-	Transitioned.emit(self, "Idle")
+

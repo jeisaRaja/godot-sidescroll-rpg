@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bj0ig06ffxs1p" path="res://states/Dash.tscn" id="9_gupu7"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vod2c"]
-radius = 6.0
+radius = 4.0
 
 [sub_resource type="Animation" id="Animation_417ab"]
 resource_name = "PlayerAttack"
@@ -44,6 +44,9 @@ tracks/0/keys = {
 "update": 1,
 "values": [22, 23, 24, 25]
 }
+
+[sub_resource type="Animation" id="Animation_3bube"]
+resource_name = "PlayerClimb"
 
 [sub_resource type="Animation" id="Animation_5mvmt"]
 resource_name = "PlayerDash"
@@ -146,9 +149,6 @@ tracks/0/keys = {
 "values": [0]
 }
 
-[sub_resource type="Animation" id="Animation_3bube"]
-resource_name = "PlayerClimb"
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sj5il"]
 _data = {
 "PlayerAttack": SubResource("Animation_417ab"),
@@ -173,7 +173,7 @@ vframes = 17
 region_rect = Rect2(0, 0, 57.6162, 58.4707)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, -15)
+position = Vector2(0, -15)
 shape = SubResource("CapsuleShape2D_vod2c")
 
 [node name="FMS" type="Node" parent="." node_paths=PackedStringArray("initialState")]
@@ -206,15 +206,14 @@ libraries = {
 
 [node name="DashCooldown" type="Timer" parent="Timer"]
 
-[node name="Raycast" type="Node" parent="."]
+[node name="Node2D" type="Node2D" parent="."]
 
-[node name="TopRight" type="RayCast2D" parent="Raycast"]
-position = Vector2(0, -31)
-target_position = Vector2(9, 0)
+[node name="Top" type="RayCast2D" parent="Node2D"]
+position = Vector2(0, -28)
+target_position = Vector2(10, 0)
 
-[node name="BottomRight" type="RayCast2D" parent="Raycast"]
-position = Vector2(0, -3)
-target_position = Vector2(9, 0)
+[node name="Bottom" type="RayCast2D" parent="Node2D"]
+position = Vector2(0, -4)
+target_position = Vector2(10, 0)
 
-[connection signal="animation_finished" from="AnimationPlayer" to="FMS/Attack" method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="Timer/DashCooldown" to="." method="_on_dash_cooldown_timeout"]

@@ -1,10 +1,12 @@
 extends CharacterBody2D
-class_name Actor
+class_name ActorClass
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -300.0
 
-@onready var ray = $RayCast2D
+@onready var TopRight = $Raycast/TopRight
+@onready var BottomRight = $Raycast/BottomRight
+
 @onready var FMS = $FMS
 @onready var Anim = $AnimationPlayer
 
