@@ -7,6 +7,7 @@ const JUMP_VELOCITY = -300.0
 @onready var ray = $RayCast2D
 @onready var FMS = $FMS
 @onready var Anim = $AnimationPlayer
+
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var facingDir: Vector2 = Vector2(1,1)
@@ -22,6 +23,7 @@ var dash_input = false
 
 # Mechanics
 var can_dash: bool = true
+var dash_cooldown: float = 2
 
 func _ready():
 	for state in FMS.get_children():
@@ -79,3 +81,6 @@ func player_input():
 		dash_input = true
 	else:
 		dash_input = false
+
+func _on_dash_cooldown_timeout():
+	can_dash = true

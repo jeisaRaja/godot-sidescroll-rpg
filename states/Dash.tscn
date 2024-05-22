@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://bj0ig06ffxs1p"]
 
-[ext_resource type="Script" path="res://states/Dash.gd" id="1_neofb"]
+[ext_resource type="Script" path="res://states/Dash.gd" id="1_n2hl3"]
 
 [node name="Dash" type="Node"]
-script = ExtResource("1_neofb")
+script = ExtResource("1_n2hl3")
 
 [node name="DashDuration" type="Timer" parent="."]
 one_shot = true

@@ -17,5 +17,5 @@ func Physics_Update(_delta: float):
 		Transitioned.emit(self, "Jump")
 	if Actor.velocity.y > 0:
 		Transitioned.emit(self, "Fall")
-	if Actor.dash_input:
+	if Actor.dash_input and Actor.can_dash:
 		Transitioned.emit(self, "Dash")

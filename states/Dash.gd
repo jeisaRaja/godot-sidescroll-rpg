@@ -2,6 +2,7 @@ extends State
 class_name Dash
 
 @export var dash_duration: float = 0.2
+@onready var dash_cooldown_timer = $"../../Timer/DashCooldown"
 @onready var dash_duration_timer = $DashDuration
 
 var dash_dir = Vector2.RIGHT
@@ -10,6 +11,8 @@ var is_dashing = false
 
 func Enter():
 	is_dashing = true
+	Actor.can_dash = false
+	dash_cooldown_timer.start(Actor.dash_cooldown)
 	dash_duration_timer.start(dash_duration)
 	if Actor.movement_input != Vector2.ZERO:
 		dash_dir = Actor.movement_input

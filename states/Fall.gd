@@ -14,5 +14,5 @@ func Physics_Update(delta: float):
 	actor_movement()
 	if Actor.is_on_floor():
 		Transitioned.emit(self, "Idle")
-	if Actor.dash_input:
+	if Actor.dash_input and Actor.can_dash:
 		Transitioned.emit(self, "Dash")
