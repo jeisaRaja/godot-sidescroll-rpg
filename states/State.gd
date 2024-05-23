@@ -4,6 +4,7 @@ class_name State
 signal Transitioned(state, newStateName)
 
 var Actor: ActorClass = null
+var ActorSprite: Sprite2D = null
 var Anim: AnimationPlayer = null
 var FMS = null
 
@@ -22,10 +23,10 @@ func Physics_Update(_delta: float):
 func actor_movement():
 	if Actor.movement_input.x > 0:
 		Actor.velocity.x = Actor.SPEED
+		ActorSprite.flip_h = false
 	elif Actor.movement_input.x < 0:
 		Actor.velocity.x = - Actor.SPEED
+		ActorSprite.flip_h = true
 	else:
 		Actor.velocity.x = 0
-	if Actor.movement_input.x and Actor.facingDir.x != Actor.movement_input.x:
-		Actor.scale.x *= -1
-		Actor.facingDir.x = Actor.movement_input.x
+	
