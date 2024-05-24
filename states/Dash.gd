@@ -1,8 +1,8 @@
 extends State
 class_name Dash
 
-@export var dash_duration: float = 0.3
-@export var ghost_duration: float = 0.02
+@export var dash_duration: float = 0.2
+@export var ghost_duration: float = 0.05
 @onready var dash_cooldown_timer = $"../../Timer/DashCooldown"
 @onready var dash_duration_timer = $DashDuration
 @onready var ghost_timer = $Ghost
@@ -18,12 +18,12 @@ func Enter():
 	dash_duration_timer.start(dash_duration)
 	ghost_timer.start(ghost_duration)
 	
-	if Actor.movement_input != Vector2.ZERO:
-		dash_dir = Actor.movement_input
+	if Actor.movement_input.x != 0:
+		dash_dir = Actor.movement_input.x
 	else:
-		dash_dir = Actor.facingDir
+		dash_dir = Actor.facing_dir
 	Anim.play(Actor.name + "Dash")
-	Actor.velocity = dash_dir.normalized() * dash_speed
+	Actor.velocity.x = dash_dir * dash_speed
 	
 func Update(_delta: float):
 	pass
@@ -33,6 +33,7 @@ func Exit():
 	ghost_timer.stop()
 	
 func Physics_Update(_delta:float):
+	Actor.velocity.y = 0
 	if not is_dashing:
 		Transitioned.emit(self, "Fall")
 

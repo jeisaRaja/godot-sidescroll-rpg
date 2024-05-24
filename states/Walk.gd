@@ -12,6 +12,7 @@ func Exit():
 	
 func Physics_Update(_delta: float):
 	actor_movement()
+	Actor.apply_gravity(_delta)
 	if Actor.velocity.x == 0:
 		Transitioned.emit(self, "Idle")
 	if Actor.velocity.y > 0 and not Actor.can_coyote:

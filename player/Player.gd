@@ -9,27 +9,30 @@ const JUMP_VELOCITY = -300.0
 @onready var FMS = $FMS
 @onready var Anim = $AnimationPlayer
 @onready var coyote_timer = $Timer/Coyote
-@onready var ghost_timer = $Timer/GhostTimer
 @onready var sprite = $SpriteParent
 @onready var sword_hitbox = $Sword
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-var facingDir: Vector2 = Vector2(1,1)
+var facing_dir: int = 1
 
 # Player Input
 var movement_input = Vector2.ZERO
-var jump_input = false
-var jump_input_actuation = false
-var climb_input = false
-var dash_input = false
-var attack_input = false
+var jump_input: bool = false
+var jump_input_actuation: bool = false
+var climb_input: bool = false
+var dash_input: bool = false
+var attack_input: bool = false
 
 # Mechanics
 var can_dash: bool = true
-var dash_cooldown: float = 2
-var was_on_floor: bool = true
+var can_double_jump:bool = false
 var can_coyote: bool = false
+var was_on_floor: bool = true
+var is_jumping: bool = false
+var dash_cooldown: float = 1
+var jump_count: int = 0
+var max_jump_count: int = 2
 
 func _ready():
 	for state in FMS.get_children():
@@ -41,7 +44,6 @@ func _ready():
 	
 func _physics_process(delta):
 	player_input()
-	apply_gravity(delta)
 	was_on_floor = is_on_floor()
 	move_and_slide()
 	check_coyote()
@@ -96,8 +98,6 @@ func is_next_to_wall():
 			raycast.force_raycast_update()
 			if not raycast.is_colliding():
 				allColliding = false
-			else:
-				print(raycast.get_collider())
 	return allColliding
 				
 func _on_dash_cooldown_timeout():
@@ -109,5 +109,4 @@ func add_ghost():
 	get_tree().current_scene.add_child(ghost)
 
 func flip_hitbox(dir: int):
-	print(dir)
 	sword_hitbox.scale.x = dir

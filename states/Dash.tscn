@@ -9,7 +9,7 @@ script = ExtResource("1_n2hl3")
 one_shot = true
 
 [node name="Ghost" type="Timer" parent="."]
-wait_time = 0.15
+wait_time = 0.05
 
 [connection signal="timeout" from="DashDuration" to="." method="_on_dash_duration_timeout"]
 [connection signal="timeout" from="Ghost" to="." method="_on_ghost_timeout"]

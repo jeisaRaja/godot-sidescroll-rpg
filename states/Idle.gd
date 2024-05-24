@@ -3,6 +3,7 @@ class_name Idle
 
 func Enter():
 	Anim.play(Actor.name + "Idle")
+	Actor.jump_count = 0
 
 func Update(_delta: float):
 	pass
@@ -11,6 +12,7 @@ func Exit():
 	pass
 	
 func Physics_Update(_delta: float):
+	Actor.apply_gravity(_delta)
 	if Actor.movement_input.x != 0:
 		Transitioned.emit(self, "Walk")
 	if Actor.jump_input_actuation == true:

@@ -23,16 +23,16 @@ func Physics_Update(_delta: float):
 func actor_movement():
 	if Actor.movement_input.x > 0:
 		Actor.velocity = Actor.velocity.move_toward(Vector2(Actor.SPEED, Actor.velocity.y), 50)
-		#Actor.velocity.x =  Actor.SPEED		
 		ActorSprite.scale.x = 1
 		flip_raycast(1)
 		Actor.flip_hitbox(1)
+		Actor.facing_dir = 1
 	elif Actor.movement_input.x < 0:
-		#Actor.velocity.x = - Actor.SPEED
 		Actor.velocity = Actor.velocity.move_toward(Vector2(-Actor.SPEED, Actor.velocity.y), 50)		
 		ActorSprite.scale.x = -1
 		flip_raycast(-1)
 		Actor.flip_hitbox(-1)
+		Actor.facing_dir = -1
 	else:
 		Actor.velocity.x = 0
 	
