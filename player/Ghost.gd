@@ -4,9 +4,9 @@ class_name Ghost
 func _ready():
 	ghosting()
 	
-func set_property(tx_post, flip):
+func set_property(tx_post, tx_scale):
 	position = tx_post - Vector2(0,40)
-	flip_h = flip
+	scale = tx_scale
 	
 func ghosting():
 	var tween_fade = get_tree().create_tween()

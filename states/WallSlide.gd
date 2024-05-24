@@ -3,13 +3,13 @@ class_name WallSlide
 
 func Enter():
 	Anim.play(Actor.name + "WallSlide")
-
+	ActorSprite.scale.x *= -1
 	
 func Update(_delta: float):
 	pass
 
 func Exit():
-	pass
+	ActorSprite.scale.x *= -1
 	
 func Physics_Update(_delta:float):
 	Actor.velocity.y = 50

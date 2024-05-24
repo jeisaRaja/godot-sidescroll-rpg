@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dypsthllcgtq8"]
+
+[ext_resource type="Script" path="res://states/Attack.gd" id="1_45u8e"]
+
+[node name="Attack" type="Node"]
+script = ExtResource("1_45u8e")
+
+[node name="ComboTimer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true

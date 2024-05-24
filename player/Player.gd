@@ -10,7 +10,8 @@ const JUMP_VELOCITY = -300.0
 @onready var Anim = $AnimationPlayer
 @onready var coyote_timer = $Timer/Coyote
 @onready var ghost_timer = $Timer/GhostTimer
-@onready var sprite = $Sprite2D
+@onready var sprite = $SpriteParent
+@onready var sword_hitbox = $Sword
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -104,5 +105,9 @@ func _on_dash_cooldown_timeout():
 
 func add_ghost():
 	var ghost = ghost_node.instantiate()
-	ghost.set_property(position, sprite.flip_h)
+	ghost.set_property(position, sprite.scale)
 	get_tree().current_scene.add_child(ghost)
+
+func flip_hitbox(dir: int):
+	print(dir)
+	sword_hitbox.scale.x = dir
