@@ -12,12 +12,13 @@ const JUMP_VELOCITY = -300.0
 @onready var sword_hitbox = $Sword
 
 # Raycast
+@onready var raycasts = $Raycast
 @onready var top_ray = $Raycast/Top
 @onready var bot_ray = $Raycast/Bottom
+@onready var hang_ray = $Raycast/Hang
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-var facing_dir: int = 1
 # Test var
 @onready var label = $Label
 
@@ -37,6 +38,7 @@ var is_jumping: bool = false
 var dash_cooldown: float = 1
 var jump_count: int = 0
 var max_jump_count: int = 2
+var facing_dir: int = 1
 
 func _ready():
 	for state in FMS.get_children():
@@ -106,8 +108,8 @@ func is_next_to_wall():
 		allColliding = false
 	return allColliding
 
-func is_player_hanging():
-	return top_ray.is_colliding() and not bot_ray.is_colliding()
+func is_hanging():
+	return hang_ray.is_colliding() and top_ray.is_colliding()
 
 func _on_dash_cooldown_timeout():
 	can_dash = true
@@ -121,5 +123,4 @@ func flip_hitbox(dir: int):
 	sword_hitbox.scale.x = dir
 	
 func flip_raycast(dir: int):
-	top_ray.scale.x = dir
-	bot_ray.scale.x = dir
+	raycasts.scale.x = dir

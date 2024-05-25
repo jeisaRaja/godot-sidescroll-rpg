@@ -22,3 +22,6 @@ func Physics_Update(delta: float):
 		Transitioned.emit(self, "WallSlide")
 	if Actor.jump_input_actuation and Actor.jump_count < Actor.max_jump_count:
 		Transitioned.emit(self, "Jump")
+	if Actor.is_hanging():
+		print("is hanging")
+		Transitioned.emit(self, "WallHang")
