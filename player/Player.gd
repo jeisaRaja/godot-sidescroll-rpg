@@ -109,7 +109,10 @@ func is_next_to_wall():
 	return allColliding
 
 func is_hanging():
-	return hang_ray.is_colliding() and top_ray.is_colliding()
+	hang_ray.force_raycast_update()
+	top_ray.force_raycast_update()
+	print("is hang ray colliding ", hang_ray.is_colliding())
+	return not hang_ray.is_colliding() and top_ray.is_colliding()
 
 func _on_dash_cooldown_timeout():
 	can_dash = true

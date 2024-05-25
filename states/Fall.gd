@@ -17,8 +17,8 @@ func Physics_Update(delta: float):
 		Transitioned.emit(self, "Idle")
 	if Actor.dash_input and Actor.can_dash:
 		Transitioned.emit(self, "Dash")
-	if Actor.is_next_to_wall() and Actor.velocity.y > 0:
-		print(Actor.is_next_to_wall())
+	if Actor.is_next_to_wall() and Actor.velocity.y > 0 and not Actor.is_hanging():
+		print(Actor.is_next_to_wall(), Actor.is_hanging())
 		Transitioned.emit(self, "WallSlide")
 	if Actor.jump_input_actuation and Actor.jump_count < Actor.max_jump_count:
 		Transitioned.emit(self, "Jump")
