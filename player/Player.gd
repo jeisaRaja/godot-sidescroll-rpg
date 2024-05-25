@@ -4,7 +4,6 @@ class_name ActorClass
 const SPEED = 200.0
 const JUMP_VELOCITY = -300.0
 
-@onready var Raycast = $Raycast
 @export var ghost_node: PackedScene
 @onready var FMS = $FMS
 @onready var Anim = $AnimationPlayer
@@ -12,9 +11,15 @@ const JUMP_VELOCITY = -300.0
 @onready var sprite = $SpriteParent
 @onready var sword_hitbox = $Sword
 
+# Raycast
+@onready var top_ray = $Raycast/Top
+@onready var bot_ray = $Raycast/Bottom
+
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var facing_dir: int = 1
+# Test var
+@onready var label = $Label
 
 # Player Input
 var movement_input = Vector2.ZERO
@@ -26,7 +31,6 @@ var attack_input: bool = false
 
 # Mechanics
 var can_dash: bool = true
-var can_double_jump:bool = false
 var can_coyote: bool = false
 var was_on_floor: bool = true
 var is_jumping: bool = false
@@ -41,6 +45,9 @@ func _ready():
 		state.FMS = FMS
 		state.ActorSprite = sprite
 	FMS.initiate_states_machine()
+	
+func _process(delta):
+	label.text = FMS.get_current_state_name()
 	
 func _physics_process(delta):
 	player_input()
@@ -93,13 +100,15 @@ func player_input():
 		
 func is_next_to_wall():
 	var allColliding: bool = true
-	for raycast in Raycast.get_children():
-		if raycast is RayCast2D:
-			raycast.force_raycast_update()
-			if not raycast.is_colliding():
-				allColliding = false
+	top_ray.force_raycast_update()
+	bot_ray.force_raycast_update()
+	if not top_ray.is_colliding() or not bot_ray.is_colliding():
+		allColliding = false
 	return allColliding
-				
+
+func is_player_hanging():
+	return top_ray.is_colliding() and not bot_ray.is_colliding()
+
 func _on_dash_cooldown_timeout():
 	can_dash = true
 
@@ -110,3 +119,7 @@ func add_ghost():
 
 func flip_hitbox(dir: int):
 	sword_hitbox.scale.x = dir
+	
+func flip_raycast(dir: int):
+	top_ray.scale.x = dir
+	bot_ray.scale.x = dir

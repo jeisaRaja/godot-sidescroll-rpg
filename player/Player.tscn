@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://kf4yxblvod5y"]
+[gd_scene load_steps=34 format=3 uid="uid://kf4yxblvod5y"]
 
 [ext_resource type="Script" path="res://player/Player.gd" id="1_64x7n"]
 [ext_resource type="Texture2D" uid="uid://nu0ttxojopyb" path="res://graphics/knight/120x80_PNGSheets/_Idle.png" id="2_m6faj"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://bktusba3l0mby" path="res://graphics/knight/120x80_PNGSheets/_WallSlide.png" id="15_tmicd"]
 [ext_resource type="Texture2D" uid="uid://ddde5oqu6jeo7" path="res://graphics/knight/120x80_PNGSheets/_Attack.png" id="16_7fnvi"]
 [ext_resource type="Texture2D" uid="uid://c04iseb00a86" path="res://graphics/knight/120x80_PNGSheets/_Attack2.png" id="18_huxo2"]
+[ext_resource type="Texture2D" uid="uid://d3uoxhsnp8sqa" path="res://graphics/knight/120x80_PNGSheets/_WallHang.png" id="19_2ui5n"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vod2c"]
 radius = 6.0
@@ -606,6 +607,71 @@ tracks/4/keys = {
 "values": [Vector2(0, -40)]
 }
 
+[sub_resource type="Animation" id="Animation_o2cop"]
+resource_name = "WallHang"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteParent/Sprite2D:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpriteParent/Sprite2D:vframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteParent/Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SpriteParent/Sprite2D:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("19_2ui5n")]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("SpriteParent/Sprite2D:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -40)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3l5l5"]
 _data = {
 "PlayerAttack": SubResource("Animation_qpdk2"),
@@ -617,7 +683,8 @@ _data = {
 "PlayerWalk": SubResource("Animation_iol5e"),
 "PlayerWallClimb": SubResource("Animation_2b4fs"),
 "PlayerWallSlide": SubResource("Animation_j3lcb"),
-"RESET": SubResource("Animation_7vt6i")
+"RESET": SubResource("Animation_7vt6i"),
+"WallHang": SubResource("Animation_o2cop")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_atfcu"]
@@ -673,11 +740,10 @@ one_shot = true
 [node name="Raycast" type="Node2D" parent="."]
 
 [node name="Top" type="RayCast2D" parent="Raycast"]
-position = Vector2(0, -29)
+position = Vector2(0, -36)
 target_position = Vector2(10, 0)
 
 [node name="Bottom" type="RayCast2D" parent="Raycast"]
-position = Vector2(0, -4)
 target_position = Vector2(10, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -690,5 +756,12 @@ libraries = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword"]
 position = Vector2(29, -21.5)
 shape = SubResource("RectangleShape2D_atfcu")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -25.0
+offset_top = -64.0
+offset_right = 22.0
+offset_bottom = -41.0
+text = "STATE"
 
 [connection signal="timeout" from="Timer/DashCooldown" to="." method="_on_dash_cooldown_timeout"]

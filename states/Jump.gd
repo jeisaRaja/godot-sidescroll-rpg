@@ -5,7 +5,6 @@ class_name Jump
 func Enter():
 	Anim.play(Actor.name + "Jump")
 	Actor.velocity.y = Actor.JUMP_VELOCITY
-	Actor.can_double_jump = !Actor.can_double_jump
 	Actor.jump_count += 1
 	
 func Update(_delta: float):

@@ -3,6 +3,7 @@ class_name Idle
 
 func Enter():
 	Anim.play(Actor.name + "Idle")
+	Actor.velocity = Vector2.ZERO
 	Actor.jump_count = 0
 
 func Update(_delta: float):

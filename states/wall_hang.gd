@@ -1,19 +1,16 @@
 extends State
-class_name WallSlide
+class_name WallHang
 
 func Enter():
-	Anim.play(Actor.name + "WallSlide")
-	ActorSprite.scale.x *= -1
-	Actor.jump_count = 0
+	Anim.play(Actor.name + "WallHang")
 	
 func Update(_delta: float):
 	pass
 
 func Exit():
-	ActorSprite.scale.x *= -1
+	pass
 	
-func Physics_Update(_delta:float):
-	Actor.velocity.y = 100
+func Physics_Update(delta: float):
 	if Actor.movement_input.x > 0 and Actor.facing_dir < 0:
 		actor_movement()
 	if Actor.movement_input.x < 0 and Actor.facing_dir > 0:

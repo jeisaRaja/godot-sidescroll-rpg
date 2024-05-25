@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ciwnqjdku10l6"]
+
+[ext_resource type="Script" path="res://states/wall_hang.gd" id="1_dcukd"]
+
+[node name="WallHang" type="Node"]
+script = ExtResource("1_dcukd")
