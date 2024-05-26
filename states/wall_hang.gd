@@ -19,6 +19,8 @@ func Physics_Update(delta: float):
 	if Actor.is_on_floor():
 		Transitioned.emit(self, "Idle")
 	if Actor.jump_input_actuation:
-		Transitioned.emit(self, "Jump")
+		Transitioned.emit(self, "WallClimb")
 	if Actor.is_next_to_wall() and not Actor.is_hanging():
 		Transitioned.emit(self, "WallSlide")
+	if Actor.movement_input.y < 0:
+		Transitioned.emit(self, "WallCLimb")

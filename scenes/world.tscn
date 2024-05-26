@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ek4pccebktce"]
+[gd_scene load_steps=6 format=3 uid="uid://ek4pccebktce"]
 
 [ext_resource type="Texture2D" uid="uid://coilkk4bo76c5" path="res://graphics/world_tileset.png" id="1_k0icd"]
 [ext_resource type="PackedScene" uid="uid://kf4yxblvod5y" path="res://player/Player.tscn" id="2_gk1m2"]
+[ext_resource type="Script" path="res://scenes/Camera2D.gd" id="3_trekm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_82gas"]
 texture = ExtResource("1_k0icd")
@@ -390,5 +391,6 @@ layer_0/tile_data = PackedInt32Array(1245185, 0, 0, 1245186, 0, 0, 1245187, 0, 0
 position = Vector2(58, 203)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-zoom = Vector2(2.05, 2.05)
+zoom = Vector2(2.2, 2.2)
 position_smoothing_enabled = true
+script = ExtResource("3_trekm")

@@ -10,11 +10,11 @@ const JUMP_VELOCITY = -300.0
 @onready var coyote_timer = $Timer/Coyote
 @onready var sprite = $SpriteParent
 @onready var sword_hitbox = $Sword
+@onready var camera = $Camera2D
 
 # Raycast
 @onready var raycasts = $Raycast
 @onready var top_ray = $Raycast/Top
-@onready var bot_ray = $Raycast/Bottom
 @onready var hang_ray = $Raycast/Hang
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -101,17 +101,12 @@ func player_input():
 		attack_input = false
 		
 func is_next_to_wall():
-	var allColliding: bool = true
 	top_ray.force_raycast_update()
-	bot_ray.force_raycast_update()
-	if not top_ray.is_colliding() or not bot_ray.is_colliding():
-		allColliding = false
-	return allColliding
+	return top_ray.is_colliding()
 
 func is_hanging():
 	hang_ray.force_raycast_update()
 	top_ray.force_raycast_update()
-	print("is hang ray colliding ", hang_ray.is_colliding())
 	return not hang_ray.is_colliding() and top_ray.is_colliding()
 
 func _on_dash_cooldown_timeout():
@@ -127,3 +122,10 @@ func flip_hitbox(dir: int):
 	
 func flip_raycast(dir: int):
 	raycasts.scale.x = dir
+
+func get_hang_ray_pos():
+	return hang_ray.target_position
+
+func offset_camera(offset: Vector2):
+	print(camera)
+	camera.position += offset
